@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Home Records</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#030303;color:#fff;font-family:Arial,sans-serif;min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;background:radial-gradient(circle at 50% 0,#5c0000 0,transparent 38%),radial-gradient(circle at 50% 100%,#260000 0,transparent 42%);pointer-events:none}
+#rain{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.devil{position:absolute;top:-60px;font-size:25px;animation:fall linear infinite;opacity:.65;filter:drop-shadow(0 0 8px #f00)}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+.app{position:relative;z-index:1;max-width:560px;margin:auto;padding:22px 16px 40px}
+.logo{text-align:center;margin:20px 0 28px;font-weight:900;letter-spacing:5px;font-size:31px;color:#fff;text-shadow:0 0 5px #fff,0 0 15px #f00,0 0 35px #f00}
+.logo span{color:#ff1111}
+.card{background:rgba(8,8,8,.86);border:1px solid #7d0808;border-radius:20px;padding:22px;box-shadow:0 0 20px rgba(255,0,0,.2),inset 0 0 25px rgba(255,0,0,.035);backdrop-filter:blur(8px)}
+h1,h2{margin:0 0 12px}.muted{color:#aaa;font-size:14px;line-height:1.5}
+input,textarea,select{width:100%;background:#090909;color:#fff;border:1px solid #651010;border-radius:12px;padding:14px;font-size:16px;outline:none}
+input:focus,textarea:focus,select:focus{border-color:#f11;box-shadow:0 0 12px rgba(255,0,0,.25)}
+textarea{min-height:330px;resize:vertical;line-height:1.55}
+button{border:0;border-radius:13px;padding:14px 18px;background:#d90909;color:#fff;font-weight:800;font-size:15px;box-shadow:0 0 14px rgba(255,0,0,.35);cursor:pointer}
+button.secondary{background:#171717;border:1px solid #641010;box-shadow:none}
+button.danger{background:#390707;border:1px solid #8c1111;box-shadow:none}
+.row{display:flex;gap:10px;flex-wrap:wrap}.row>*{flex:1;min-width:120px}
+.menu{display:grid;gap:14px;margin-top:20px}.menu button{min-height:65px;font-size:17px}
+.hidden{display:none!important}.back{background:transparent;border:1px solid #4e0b0b;box-shadow:none;margin-bottom:14px}
+.list{display:grid;gap:10px;margin-top:16px}.song{padding:15px;border:1px solid #451010;border-radius:13px;background:#090909;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.song-title{font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.song-date{font-size:12px;color:#777;margin-top:4px}
+.small{padding:10px 12px;font-size:13px;min-width:auto}
+.badge{display:inline-block;color:#ff3b3b;border:1px solid #701010;border-radius:999px;padding:5px 9px;font-size:12px;margin-bottom:14px}
+.empty{text-align:center;color:#777;padding:25px 5px}
+footer{text-align:center;color:#555;font-size:11px;margin-top:25px}
+</style>
+</head>
+<body>
+<div id="rain"></div>
+<main class="app">
+
+<section id="login" class="card">
+  <div class="logo">HOME <span>RECORDS</span></div>
+  <h1>Bienvenido</h1>
+  <p class="muted">Elegí el nombre con el que querés entrar. No hace falta crear una cuenta.</p>
+  <input id="username" maxlength="30" placeholder="Tu nombre">
+  <button style="width:100%;margin-top:12px" onclick="enter()">ENTRAR</button>
+</section>
+
+<section id="home" class="hidden">
+  <div class="logo">HOME <span>RECORDS</span></div>
+  <div class="card">
+    <span class="badge" id="welcome"></span>
+    <h1>¿Qué hacemos?</h1>
+    <p class="muted">Tu espacio para crear y guardar tus letras.</p>
+    <div class="menu">
+      <button onclick="showGenerator()">🎤 CREAR LETRA</button>
+      <button onclick="showBible()">📖 LA BIBLIA</button>
+    </div>
+  </div>
+</section>
+
+<section id="generator" class="hidden">
+  <button class="back" onclick="show('home')">← Volver</button>
+  <div class="card">
+    <span class="badge">GENERADOR</span>
+    <h2>Crear letra</h2>
+    <p class="muted">Esta primera versión deja preparada la pantalla. El motor escritor lo conectaremos después.</p>
+    <label>Estilo</label>
+    <select id="style">
+      <option>Reggaetón</option><option>Trap</option><option>Hip Hop</option><option>Corridos bélicos</option>
+      <option>Dembow</option><option>Urbano</option><option>Detroit</option><option>Salsa</option>
+      <option>Dembow dominicano</option><option>Cumbia</option><option>Drill</option><option>RKT</option>
+      <option>Bachata</option><option>Amor</option><option>Maleanteo</option><option>Maleanteo viejo</option>
+    </select>
+    <label style="display:block;margin-top:14px">Tu coro</label>
+    <textarea id="chorus" placeholder="Pegá acá el coro que escribiste..."></textarea>
+    <button style="width:100%;margin-top:12px" onclick="alert('El motor escritor se agregará en la siguiente versión. Tu coro queda en esta pantalla para probar el diseño.')">CONTINUAR</button>
+  </div>
+</section>
+
+<section id="bible" class="hidden">
+  <button class="back" onclick="show('home')">← Volver</button>
+  <div class="card">
+    <span class="badge">TU ARCHIVO</span>
+    <h2>📖 LA BIBLIA</h2>
+    <p class="muted">Guardá tus letras y volvé a ellas cuando quieras. Se almacenan en este dispositivo.</p>
+    <button style="width:100%;margin-top:8px" onclick="newSong()">＋ NUEVA LETRA</button>
+    <div id="songList" class="list"></div>
+  </div>
+</section>
+
+<section id="editor" class="hidden">
+  <button class="back" onclick="showBible()">← La Biblia</button>
+  <div class="card">
+    <span class="badge">EDITOR</span>
+    <input id="songName" maxlength="80" placeholder="Nombre de la letra">
+    <textarea id="songText" style="margin-top:12px" placeholder="Escribí tu letra acá..."></textarea>
+    <div class="row" style="margin-top:12px">
+      <button onclick="saveSong()">GUARDAR</button>
+      <button class="danger" onclick="deleteSong()">ELIMINAR</button>
+    </div>
+  </div>
+</section>
+
+<footer>HOME RECORDS • Tu música, tus palabras.</footer>
+</main>
+
+<script>
+const $=id=>document.getElementById(id);
+let currentId=null;
+function show(id){['login','home','generator','bible','editor'].forEach(x=>$(x).classList.toggle('hidden',x!==id)); if(id==='bible')renderSongs();}
+function enter(){
+ const n=$('username').value.trim(); if(!n){$('username').focus();return}
+ localStorage.hr_user=n;$('welcome').textContent='👹 '+n;show('home');
+}
+function showGenerator(){show('generator')}
+function showBible(){show('bible')}
+function getSongs(){return JSON.parse(localStorage.hr_songs||'[]')}
+function setSongs(a){localStorage.hr_songs=JSON.stringify(a)}
+function newSong(){currentId=null;$('songName').value='';$('songText').value='';show('editor');$('songName').focus()}
+function editSong(id){let s=getSongs().find(x=>x.id===id);if(!s)return;currentId=id;$('songName').value=s.name;$('songText').value=s.text;show('editor')}
+function saveSong(){
+ let name=$('songName').value.trim()||'Sin nombre';let text=$('songText').value;
+ let a=getSongs();
+ if(currentId){let s=a.find(x=>x.id===currentId);s.name=name;s.text=text;s.updated=new Date().toLocaleString()}
+ else{currentId=Date.now().toString();a.unshift({id:currentId,name,text,updated:new Date().toLocaleString()})}
+ setSongs(a);showBible();
+}
+function deleteSong(){
+ if(!currentId)return showBible();
+ setSongs(getSongs().filter(x=>x.id!==currentId));currentId=null;showBible();
+}
+function renderSongs(){
+ let a=getSongs(),box=$('songList');
+ if(!a.length){box.innerHTML='<div class="empty">Todavía no tenés letras guardadas.<br>Creá la primera con “Nueva letra”.</div>';return}
+ box.innerHTML=a.map(s=>`<div class="song"><div style="min-width:0"><div class="song-title">${esc(s.name)}</div><div class="song-date">${esc(s.updated||'')}</div></div><button class="small" onclick="editSong('${s.id}')">ABRIR</button></div>`).join('');
+}
+function esc(x){return String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+(function init(){
+ if(localStorage.hr_user){$('welcome').textContent='👹 '+localStorage.hr_user;show('home')}else show('login');
+ const rain=$('rain');for(let i=0;i<26;i++){let e=document.createElement('span');e.className='devil';e.textContent='👹';e.style.left=Math.random()*100+'%';e.style.animationDuration=(5+Math.random()*9)+'s';e.style.animationDelay=(-Math.random()*12)+'s';e.style.fontSize=(16+Math.random()*20)+'px';rain.appendChild(e)}
+})();
+</script>
+</body>
+</html>
