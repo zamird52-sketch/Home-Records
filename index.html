@@ -139,9 +139,39 @@ function esc(x){return String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;',
  const rain=$('rain');for(let i=0;i<26;i++){let e=document.createElement('span');e.className='devil';e.textContent='👹';e.style.left=Math.random()*100+'%';e.style.animationDuration=(5+Math.random()*9)+'s';e.style.animationDelay=(-Math.random()*12)+'s';e.style.fontSize=(16+Math.random()*20)+'px';rain.appendChild(e)}
 })();
   async function generateVerse(){
-  alert("BOTÓN FUNCIONA");
+  const style=$('style').value;
+  const chorus=$('chorus').value.trim();
 
-}
+  if(!chorus){
+    alert('Pegá primero tu coro.');
+    return;
+  }
+
+  try{
+    const r=await fetch('https://fragrant-glitter-9b8a.zamird52.workers.dev/',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        style:style,
+        chorus:chorus,
+        action:'generate'
+      })
+    });
+
+    const d=await r.json();
+
+    const verse=d.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('').trim();
+
+    if(verse){
+      alert(verse);
+    }else{
+      alert('No se recibió ningún verso.');
+    }
+
+  }catch(e){
+    alert('Error de conexión: '+e.message);
+  }
+  }
 </script>
 </body>
 </html>
