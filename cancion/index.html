@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#09090d">
+<title>Beat + Letra — Generador musical</title>
+<style>
+:root{color-scheme:dark;--bg:#09090d;--panel:#13131b;--panel2:#1a1924;--line:#302b40;--text:#f6f3ff;--muted:#a9a3b8;--accent:#b18cff;--cyan:#70e6ef}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#38205d 0,transparent 48%),var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}.wrap{max-width:760px;margin:auto;padding:24px 16px 56px}.top{display:flex;align-items:center;gap:12px;margin:8px 0 28px}.logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(135deg,#a477ff,#5ce2e9);display:grid;place-items:center;color:#100b19;font-size:24px;font-weight:900}.brand{font-weight:900;letter-spacing:.12em}.sub{color:var(--muted);font-size:13px}.hero{text-align:center;margin-bottom:26px}.eyebrow{color:var(--cyan);font-size:12px;letter-spacing:.2em;font-weight:800}.hero h1{font-size:clamp(30px,7vw,48px);line-height:1.05;margin:10px 0}.hero p{color:var(--muted);max-width:530px;margin:0 auto}.card{background:linear-gradient(160deg,#171520,#101016);border:1px solid var(--line);border-radius:22px;padding:20px;margin:14px 0;box-shadow:0 18px 55px #0003}.section-title{font-weight:800;margin:0 0 14px;display:flex;align-items:center;gap:9px}.num{display:grid;place-items:center;width:27px;height:27px;border-radius:9px;background:#302442;color:var(--accent);font-size:13px}label{display:block;font-weight:700;font-size:14px;margin:14px 0 7px}input,textarea,select{width:100%;font:inherit;color:var(--text);background:#0b0a11;border:1px solid #393247;border-radius:12px;padding:13px 14px;outline:none}input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px #b18cff22}textarea{min-height:190px;resize:vertical}input::placeholder,textarea::placeholder{color:#706a7d}.hint{font-size:12px;color:var(--muted);margin-top:6px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.btn{width:100%;border:0;border-radius:13px;padding:15px 18px;font:inherit;font-weight:900;cursor:pointer;color:#100b19;background:linear-gradient(100deg,#b18cff,#70e6ef);margin-top:17px}.btn:disabled{opacity:.55;cursor:wait}.secondary{display:inline-flex;justify-content:center;align-items:center;text-decoration:none;border:1px solid var(--line);color:var(--text);background:#1b1824;padding:11px 15px;border-radius:11px;font-weight:700}.status{display:none;margin-top:16px;padding:13px;border-radius:12px;background:#201c2b;border:1px solid var(--line);color:#ded5f5;white-space:pre-wrap}.status.show{display:block}.songs{display:grid;gap:12px;margin-top:14px}.song{border:1px solid var(--line);border-radius:15px;background:#0d0c13;padding:14px}.song h3{margin:0 0 8px;font-size:16px}.song audio{width:100%;margin:8px 0}.song a{margin-top:4px}.notice{font-size:13px;color:var(--muted);border-left:3px solid var(--accent);padding:9px 12px;background:#17131f;border-radius:0 10px 10px 0}.small{font-size:12px;color:var(--muted)}.footer{text-align:center;color:#777184;font-size:12px;padding:18px 0}@media(max-width:520px){.grid{grid-template-columns:1fr}.card{padding:16px}.wrap{padding:18px 12px 42px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="top"><div class="logo">♪</div><div><div class="brand">BEAT + LETRA</div><div class="sub">Tu letra. Tu estilo. Tu canción.</div></div></header>
+<section class="hero"><div class="eyebrow">ESTUDIO MUSICAL CON IA</div><h1>Convertí tu letra<br>en una canción.</h1><p>Pegá tus palabras, elegí cómo querés que suene y generá un audio que puedas escuchar y descargar.</p></section>
+<section class="card">
+<h2 class="section-title"><span class="num">1</span> Tu conexión con el motor musical</h2>
+<label for="apiKey">Clave API de MusicAPI</label><input id="apiKey" type="password" autocomplete="off" placeholder="Pegá tu clave API aquí">
+<div class="hint">La clave se usa solo en esta pestaña y no se guarda en esta página ni en el repositorio. El servicio requiere cuenta y tiene una prueba limitada.</div>
+<p class="small"><a href="https://musicapi.ai/" target="_blank" rel="noopener">Crear cuenta y obtener una clave en MusicAPI ↗</a></p>
+</section>
+<section class="card">
+<h2 class="section-title"><span class="num">2</span> La canción</h2>
+<label for="title">Nombre de la canción</label><input id="title" maxlength="80" placeholder="Ej. Llegaron los papás">
+<label for="lyrics">Tu letra</label><textarea id="lyrics" maxlength="5000" placeholder="[Intro]&#10;Escribí acá tu intro...&#10;&#10;[Verso 1]&#10;Pegá tu letra...&#10;&#10;[Coro]&#10;Tu coro..."></textarea>
+<div class="hint">Podés usar etiquetas como [Intro], [Verse], [Chorus], [Bridge] y [Outro].</div>
+<div class="grid">
+<div><label for="style">Estilo musical</label><select id="style"><option>Trap argentino</option><option>Reggaetón</option><option>Detroit / 4KT</option><option>Drill</option><option>Dembow dominicano</option><option>RKT</option><option>Hip hop</option><option>Corridos tumbados</option><option>R&B</option><option>Bachata</option><option>Cumbia</option><option>Pop urbano</option><option>Otro / personalizado</option></select></div>
+<div><label for="voice">Voz</label><select id="voice"><option value="m">Masculina</option><option value="f">Femenina</option></select></div>
+</div>
+<label for="details">Detalles del sonido</label><input id="details" placeholder="Ej. 808 profundo, melodía oscura, energía agresiva">
+<label for="beat">Link de YouTube del beat (opcional)</label><input id="beat" type="url" placeholder="https://youtube.com/watch?v=...">
+<div class="notice" style="margin-top:10px">Importante: el link de YouTube queda como referencia y no se usa como instrumental exacto. Para cantar sobre ese beat específico, hace falta una función de carga/cover compatible y tener derecho a usar el audio.</div>
+<button id="generate" class="btn">✦ GENERAR CANCIÓN</button>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+<div id="songs" class="songs"></div>
+</section>
+<section class="card"><h2 class="section-title"><span class="num">i</span> Antes de generar</h2><p class="small">MusicAPI anuncia 75 créditos de prueba sin tarjeta al crear una cuenta; la generación musical consume créditos y el uso gratuito no es ilimitado. Revisá el saldo antes de probar. Cada solicitud puede producir dos versiones.</p><p class="small">No pegues claves API en chats ni las compartas. Esta es una página estática y la llamada depende de que el servicio permita solicitudes desde el navegador; si el navegador bloquea la conexión (CORS), se necesitará un pequeño servidor intermedio.</p></section>
+<div class="footer">Hecho para probar ideas musicales · No afiliado a Suno ni a YouTube</div>
+</main>
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+const button=$('generate'),status=$('status'),songs=$('songs');
+function show(message){status.textContent=message;status.classList.add('show')}
+function safeUrl(value){try{const u=new URL(value);return u.protocol==='https:'?u.href:''}catch{return ''}}
+function renderSongs(data){
+ songs.innerHTML='';
+ const list=Array.isArray(data)?data:(data?.data||[]);
+ const valid=list.map(item=>item?.full||item).filter(item=>item?.audio_url);
+ if(!valid.length){show('La tarea terminó, pero la respuesta todavía no incluye audio. Revisá el estado o intentá nuevamente.');return}
+ valid.forEach((song,i)=>{
+  const card=document.createElement('article');card.className='song';
+  const h=document.createElement('h3');h.textContent=song.title||('Tu canción · versión '+(i+1));card.appendChild(h);
+  const audio=document.createElement('audio');audio.controls=true;audio.preload='none';audio.src=safeUrl(song.audio_url);card.appendChild(audio);
+  const link=document.createElement('a');link.className='secondary';link.href=safeUrl(song.audio_url);link.download=(song.title||'mi-cancion').replace(/[^a-z0-9-_ ]/gi,'').trim()+'.mp3';link.target='_blank';link.rel='noopener';link.textContent='⬇ Descargar audio';card.appendChild(link);
+  songs.appendChild(card);
+ });
+ show('¡La canción está lista! Podés escucharla y descargar el MP3.');
+}
+button.addEventListener('click',async()=>{
+ const key=$('apiKey').value.trim(),lyrics=$('lyrics').value.trim(),title=$('title').value.trim()||'Mi canción';
+ if(!key){show('Primero pegá tu clave API de MusicAPI.');$('apiKey').focus();return}
+ if(!lyrics){show('Pegá la letra que querés que cante la IA.');$('lyrics').focus();return}
+ const style=$('style').value,details=$('details').value.trim(),tags=[style,details].filter(Boolean).join(', ');
+ const body={task_type:'create_music',custom_mode:true,mv:'sonic-v6',title,prompt:lyrics,tags,vocal_gender:$('voice').value};
+ button.disabled=true;button.textContent='GENERANDO…';songs.innerHTML='';
+ try{
+  show('Enviando tu letra al motor musical… Esto puede tardar unos minutos.');
+  const response=await fetch('https://api.musicapi.ai/api/v1/sonic/create',{method:'POST',headers:{'Authorization':'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  const result=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(result.message||result.error||('El servicio respondió '+response.status+'. Revisá la clave y tus créditos.'));
+  const taskId=result.task_id||result.data?.task_id;
+  if(!taskId){if(result.data)renderSongs(result.data);else throw new Error('El servicio no devolvió un ID de tarea.');return}
+  show('Solicitud aceptada. La IA está creando la canción. Revisando cada 20 segundos…');
+  let finished=false;
+  for(let attempt=0;attempt<19;attempt++){
+   await new Promise(resolve=>setTimeout(resolve,20000));
+   const poll=await fetch('https://api.musicapi.ai/api/v1/sonic/task/'+encodeURIComponent(taskId),{headers:{'Authorization':'Bearer '+key}});
+   const info=await poll.json().catch(()=>({}));
+   if(!poll.ok)throw new Error(info.message||'No se pudo consultar el estado de la canción.');
+   const state=info.data?.[0]?.state||info.state;
+   if(state==='failed')throw new Error('La generación falló. Revisá la clave, los créditos o probá otra vez.');
+   if(state==='succeeded'||(Array.isArray(info.data)&&info.data.some(s=>s.audio_url))){renderSongs(info.data);finished=true;break}
+   show('La IA sigue trabajando… ('+(attempt+1)+'/19). No cierres esta pestaña todavía.');
+  }
+  if(!finished)show('La generación sigue procesándose. Volvé a intentarlo más tarde; la tarea podría seguir activa en tu cuenta del proveedor.');
+ }catch(error){
+  const msg=String(error?.message||error);
+  if(error instanceof TypeError)show('No se pudo conectar desde el navegador. Puede ser un bloqueo CORS del proveedor. Para que funcione en la web publicada necesitaremos conectar un servidor intermedio; no es un problema de tu letra.');
+  else show('No se pudo generar: '+msg);
+ }finally{button.disabled=false;button.textContent='✦ GENERAR CANCIÓN'}
+});
+})();
+</script>
+</body>
+</html>
