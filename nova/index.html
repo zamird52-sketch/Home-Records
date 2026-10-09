@@ -62,6 +62,22 @@
     <div class="panel-pad">
      <div class="row2"><div class="field"><label for="title">NOMBRE DEL PROYECTO</label><input id="title" maxlength="100" placeholder="Título de la canción"></div><div class="field"><label for="genre">GÉNERO</label><select id="genre"><option>Urbano</option><option>Detroit</option><option>Trap</option><option>Reggaetón</option><option>Drill</option><option>RKT</option><option>Dembow</option><option>Hip hop</option><option>Maleanteo</option><option>Bachata urbana</option><option>Cumbia</option><option>Salsa</option><option>Pop oscuro</option><option>Melódico</option><option>Experimental</option></select></div></div>
      <div class="field"><label for="seed">TU LETRA / IDEA CENTRAL</label><textarea id="seed" placeholder="Pegá tu coro, una frase, una escena o cuatro líneas. Podés empezar sin nada terminado."></textarea><div class="toolrow"><span class="count" id="count">0 palabras · 0 líneas</span><button class="btn ghost" id="saveDraft">Guardar borrador</button></div></div>
+     <div class="panel" id="voiceDemo" style="margin-top:14px;border-color:rgba(255,65,95,.32)">
+      <div class="panel-head"><div><h2>🎙️ Modo demo vocal</h2><div class="count">Escuchá tu letra con voz sintética y pausas por barra</div></div><span class="pill">SIN COSTO</span></div>
+      <div class="panel-pad">
+       <div class="row2">
+        <div class="field"><label for="voiceSelect">VOZ</label><select id="voiceSelect"><option value="">Voz predeterminada del teléfono</option></select></div>
+        <div class="field"><label for="voiceRate">VELOCIDAD <span id="voiceRateValue">1.0×</span></label><input id="voiceRate" type="range" min="0.65" max="1.35" step="0.05" value="1"></div>
+       </div>
+       <div class="toolrow" style="flex-wrap:wrap">
+        <button class="btn primary" id="voicePlay">▶ Escuchar demo</button>
+        <button class="btn ghost" id="voicePause" disabled>Ⅱ Pausar</button>
+        <button class="btn ghost" id="voiceStop" disabled>■ Detener</button>
+       </div>
+       <div class="count" id="voiceStatus" role="status" aria-live="polite" style="margin-top:10px">Pegá tu letra arriba y tocá “Escuchar demo”.</div>
+       <p class="count" style="margin-top:8px">Esta versión habla la letra con ritmo de lectura; todavía no canta una melodía. No necesita cuenta, clave ni permisos especiales.</p>
+      </div>
+     </div>
      <div class="field"><label>OBJETIVO DE LA SESIÓN</label><div class="tag-row" id="tasks"><button class="tag selected" data-task="continuar">Continuar mi idea</button><button class="tag" data-task="punchlines">Punchlines</button><button class="tag" data-task="wordplay">Dobles sentidos</button><button class="tag" data-task="rhyme">Pulir rimas</button><button class="tag" data-task="hook">Crear un coro</button><button class="tag" data-task="structure">Ordenar tema</button></div></div>
      <div class="row2"><div class="field"><label for="attitude">ACTITUD / DELIVERY</label><select id="attitude"><option>Directo y natural</option><option>Confiado y elegante</option><option>Irónico y pícaro</option><option>Melódico y emocional</option><option>Oscuro y atmosférico</option><option>Relajado y conversado</option></select></div><div class="field"><label for="length">EXTENSIÓN</label><select id="length"><option value="4">4 barras (idea rápida)</option><option value="8" selected>8 barras</option><option value="12">12 barras</option><option value="16">16 barras</option><option value="hook">Coro corto</option></select></div></div>
      <div class="field"><label for="avoid">EVITAR PALABRAS / CLICHÉS</label><input id="avoid" placeholder="Separá las palabras por comas (opcional)"></div>
@@ -292,6 +308,21 @@ sb.auth.getSession().then(({data,error})=>{if(error)status(cleanError(error),fal
 sb.auth.onAuthStateChange((_event,session)=>{setSignedIn(session?session.user:null)});
 }
 })();
+ // Demo vocal local: usa la voz sintética integrada del navegador, sin API ni clave.
+ (function initVoiceDemo(){
+  const textBox=document.getElementById('seed'), voiceSelect=document.getElementById('voiceSelect'), rate=document.getElementById('voiceRate'), rateValue=document.getElementById('voiceRateValue'), play=document.getElementById('voicePlay'), pause=document.getElementById('voicePause'), stop=document.getElementById('voiceStop'), status=document.getElementById('voiceStatus');
+  if(!textBox||!voiceSelect||!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window)){if(status)status.textContent='Este navegador no ofrece voz sintética. Probá abrir NOVA en Chrome actualizado.';if(play)play.disabled=true;return}
+  let voices=[],runId=0,paused=false;
+  function loadVoices(){voices=window.speechSynthesis.getVoices();const prev=voiceSelect.value;voiceSelect.innerHTML='<option value="">Voz predeterminada del teléfono</option>';voices.forEach((v,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=v.name+' ('+v.lang+')';voiceSelect.appendChild(o)});const es=voices.findIndex(v=>/^es(-|$)/i.test(v.lang));if(prev)voiceSelect.value=prev;else if(es>=0)voiceSelect.value=String(es)}
+  loadVoices();window.speechSynthesis.onvoiceschanged=loadVoices;
+  rate.addEventListener('input',()=>rateValue.textContent=Number(rate.value).toFixed(2).replace(/0$/,'')+'×');
+  function setBusy(b){play.disabled=b;pause.disabled=!b;stop.disabled=!b}
+  function stopDemo(message){runId++;window.speechSynthesis.cancel();paused=false;setBusy(false);pause.textContent='Ⅱ Pausar';if(message)status.textContent=message}
+  play.addEventListener('click',()=>{const lyrics=textBox.value.trim();if(!lyrics){status.textContent='Primero pegá una letra en el cuadro de arriba.';textBox.focus();return}stopDemo();const myRun=++runId,lines=lyrics.split(/\n+/).map(x=>x.trim()).filter(Boolean);let index=0;paused=false;setBusy(true);status.textContent='Preparando demo vocal…';const speakNext=()=>{if(myRun!==runId||paused)return;if(index>=lines.length){setBusy(false);status.textContent='Demo terminada.';return}const line=lines[index++],u=new SpeechSynthesisUtterance(line),vi=voiceSelect.value===''?-1:Number(voiceSelect.value);if(vi>=0&&voices[vi])u.voice=voices[vi];u.rate=Number(rate.value);u.pitch=1;u.volume=1;u.onstart=()=>{if(myRun===runId)status.textContent='Barra '+index+' de '+lines.length+' · reproduciendo…'};u.onend=()=>{if(myRun===runId&&!paused)setTimeout(speakNext,180)};u.onerror=e=>{if(myRun===runId&&e.error!=='canceled'&&e.error!=='interrupted')stopDemo('No se pudo reproducir la voz. Probá otra voz del teléfono.')};window.speechSynthesis.speak(u)};speakNext()});
+  pause.addEventListener('click',()=>{if(window.speechSynthesis.paused){window.speechSynthesis.resume();paused=false;pause.textContent='Ⅱ Pausar';status.textContent='Reanudando demo…'}else{window.speechSynthesis.pause();paused=true;pause.textContent='▶ Reanudar';status.textContent='Demo pausada.'}});
+  stop.addEventListener('click',()=>stopDemo('Demo detenida.'));
+  window.addEventListener('beforeunload',()=>window.speechSynthesis.cancel());
+ })();
 </script>
 
 </body>
