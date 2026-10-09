@@ -1,0 +1,43 @@
+name: NOVA static checks
+on:
+  push:
+    branches: [main]
+    paths:
+      - "nova/**"
+      - ".github/workflows/nova-check.yml"
+  pull_request:
+    paths:
+      - "nova/**"
+      - ".github/workflows/nova-check.yml"
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Extract embedded scripts
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          html = Path("nova/index.html").read_text(encoding="utf-8")
+          scripts = re.findall(r"<script>(.*?)</script>", html, re.S)
+          if len(scripts) < 2:
+              raise SystemExit("Expected service-worker registration and application scripts.")
+          for index, script in enumerate(scripts):
+              Path(f"/tmp/nova-{index}.js").write_text(script, encoding="utf-8")
+          print(f"Found {len(scripts)} embedded scripts.")
+          PY
+      - name: Check JavaScript syntax
+        run: |
+          for file in /tmp/nova-*.js; do
+            node --check "$file"
+          done
+      - name: Check required app files
+        run: |
+          test -s nova/index.html
+          test -s nova/manifest.webmanifest
+          test -s nova/sw.js
+          test -s nova/icon.svg
