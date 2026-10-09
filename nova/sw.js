@@ -1,4 +1,4 @@
-const CACHE_NAME = "nova-shell-v2";
+const CACHE_NAME = "nova-shell-v3";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg"];
 self.addEventListener("install", event => {
   event.waitUntil(caches.open(CACHE_NAME).then(cache => cache.addAll(SHELL)).then(() => self.skipWaiting()));
