@@ -113,9 +113,9 @@ drop policy if exists "members can read comments" on public.nova_project_comment
 create policy "members can read comments" on public.nova_project_comments
 for select to authenticated using (exists (
   select 1 from public.nova_project_members m
-  where m.project_id = project_id and m.user_id = (select auth.uid())
+  where m.project_id = public.nova_project_comments.project_id and m.user_id = (select auth.uid())
 ) or exists (
-  select 1 from public.nova_projects p where p.id = project_id and p.owner_id = (select auth.uid())
+  select 1 from public.nova_projects p where p.id = public.nova_project_comments.project_id and p.owner_id = (select auth.uid())
 ));
 drop policy if exists "members can add comments" on public.nova_project_comments;
 create policy "members can add comments" on public.nova_project_comments
