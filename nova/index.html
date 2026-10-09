@@ -121,7 +121,7 @@
 </div>
 <div class="modal-bg" id="modal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="eyebrow">NOVA / CONFIRMACIÓN</div><h2 id="modalTitle">¿Seguro?</h2><p id="modalText">Esta acción no se puede deshacer.</p><div class="modal-actions"><button class="btn" id="modalCancel">Cancelar</button><button class="btn warn" id="modalOk">Continuar</button></div></div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>if("serviceWorker" in navigator && location.protocol.startsWith("http")){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}</script>
+<script>if("serviceWorker" in navigator && location.protocol.startsWith("http")){window.addEventListener("load",()=>navigator.serviceWorker.getRegistrations().then(rs=>Promise.all(rs.map(r=>r.unregister()))).catch(()=>{}));}</script>
 <script>
 (function(){
 'use strict';
