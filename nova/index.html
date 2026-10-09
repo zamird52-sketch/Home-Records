@@ -21,6 +21,7 @@
  <button class="nav-btn" data-view="projects"><span class="nav-ico">▱</span><span class="nav-label-text">Proyectos</span></button>
  <button class="nav-btn" data-view="bible"><span class="nav-ico">▤</span><span class="nav-label-text">La Biblia</span></button>
  <button class="nav-btn" data-view="tools"><span class="nav-ico">⌁</span><span class="nav-label-text">Herramientas</span></button>
+ <button class="nav-btn" data-view="collab"><span class="nav-ico">♧</span><span class="nav-label-text">Colaborar</span></button>
  <button class="nav-btn" data-view="settings"><span class="nav-ico">⚙</span><span class="nav-label-text">Conexiones</span></button>
  </div>
  <div class="rail-spacer"></div>
@@ -93,6 +94,62 @@
    <section class="panel"><div class="panel-head"><h2>02 / Estructura rápida</h2></div><div class="panel-pad"><div class="field"><label for="structureType">FORMATO DEL TEMA</label><select id="structureType"><option value="standard">Verso · coro · verso · coro</option><option value="short">Coro + verso corto</option><option value="story">Tema narrativo</option><option value="freestyle">Freestyle / cypher</option></select></div><button class="btn cyan" id="makeStructure">Crear estructura</button><div class="result-body" id="structureOutput" style="margin-top:16px;white-space:pre-wrap;color:#d4d8e8;font-size:12px"></div><button class="btn" id="putStructure" style="margin-top:12px">Llevar al estudio ↗</button></div></section>
   </div>
   <div class="section-head"><h2>Direcciones para escribir</h2><span class="muted">GATILLOS CREATIVOS</span></div><div class="grid ideas-grid" id="ideaGrid"></div>
+ </section>
+
+
+ <section class="view" id="view-collab">
+  <div class="hero"><div><div class="eyebrow">Home Records / shared studio</div><h1>La sala <span class="gradient-text">compartida.</span></h1><p>Iniciá sesión para guardar un proyecto en la nube, invitar a tus amigos y comentar líneas con el equipo.</p></div></div>
+  <div class="split">
+   <section class="panel">
+    <div class="panel-head"><h2>01 / Tu cuenta</h2><span class="pill" id="collabState">SIN CONECTAR</span></div>
+    <div class="panel-pad">
+     <div id="collabAuth">
+      <div class="field"><label for="collabEmail">CORREO ELECTRÓNICO</label><input id="collabEmail" type="email" autocomplete="email" placeholder="tu correo"></div>
+      <div class="field"><label for="collabPassword">CONTRASEÑA</label><input id="collabPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Mínimo 6 caracteres"></div>
+      <div class="toolbar"><button class="btn primary" id="collabSignIn">Iniciar sesión</button><button class="btn" id="collabSignUp">Crear cuenta</button></div>
+      <p class="note-footer">Usá tu propio correo. Si Supabase pide confirmación, revisá tu bandeja de entrada. Nunca compartas tu contraseña.</p>
+     </div>
+     <div id="collabLogged" class="hidden"><p id="collabUser" style="overflow-wrap:anywhere;color:#bfc5d8"></p><button class="btn warn" id="collabSignOut">Cerrar sesión</button></div>
+     <div class="api-status" id="collabStatus"><span class="circle"></span><span>Conectando con la sala…</span></div>
+    </div>
+   </section>
+   <section class="panel">
+    <div class="panel-head"><h2>02 / Entrar a una sala</h2></div>
+    <div class="panel-pad">
+     <div class="field"><label for="inviteCode">CÓDIGO DE INVITACIÓN</label><input id="inviteCode" placeholder="Pegá el código que te pasó tu amigo"></div>
+     <button class="btn cyan" id="collabJoin">Unirme con código</button>
+     <p class="note-footer">Los códigos vencen a los 7 días y tienen usos limitados.</p>
+    </div>
+   </section>
+  </div>
+  <div class="split" style="margin-top:15px">
+   <section class="panel">
+    <div class="panel-head"><h2>03 / Crear proyecto compartido</h2></div>
+    <div class="panel-pad">
+     <div class="field"><label for="sharedTitle">NOMBRE DEL PROYECTO</label><input id="sharedTitle" maxlength="100" placeholder="Nombre de la canción"></div>
+     <div class="field"><label for="sharedGenre">GÉNERO</label><input id="sharedGenre" maxlength="80" placeholder="Trap, Detroit, reggaetón…"></div>
+     <div class="field"><label for="sharedLyrics">LETRA INICIAL</label><textarea id="sharedLyrics" placeholder="Pegá el coro o la idea que van a trabajar juntos." style="min-height:150px"></textarea></div>
+     <button class="btn primary" id="collabCreate">Guardar en la nube</button>
+    </div>
+   </section>
+   <section class="panel">
+    <div class="panel-head"><h2>04 / Tus salas</h2><button class="btn" id="collabRefresh">Actualizar</button></div>
+    <div class="panel-body"><div class="list" id="collabProjects"><div class="empty">Iniciá sesión para ver tus proyectos compartidos.</div></div></div>
+   </section>
+  </div>
+  <section class="panel" style="margin-top:15px">
+   <div class="panel-head"><div><h2 id="sharedCurrentTitle">05 / Sala de trabajo</h2><div class="count" id="sharedCurrentMeta">Elegí un proyecto para ver comentarios.</div></div><div class="toolbar"><button class="btn" id="collabInvite" disabled>Crear invitación</button><button class="btn" id="collabVersion" disabled>Guardar versión</button></div></div>
+   <div class="panel-pad">
+    <div class="field"><label for="sharedEditLyrics">LETRA COMPARTIDA</label><textarea id="sharedEditLyrics" placeholder="Seleccioná un proyecto para cargar la letra." style="min-height:190px" disabled></textarea></div>
+    <div class="toolbar"><button class="btn primary" id="collabSaveLyrics" disabled>Guardar cambios</button><button class="btn" id="collabLoadLocal" disabled>Copiar letra al estudio local</button></div>
+    <div id="collabInviteResult" class="result hidden"><div class="result-head"><strong>Enlace / código de invitación</strong><span class="pill">7 DÍAS</span></div><div class="result-body" id="collabInviteText"></div><div class="result-actions"><button class="btn" id="collabCopyInvite">Copiar invitación</button></div></div>
+    <div class="section-head"><h2>Comentarios de la sala</h2><span class="muted">IDEAS DEL EQUIPO</span></div>
+    <div id="collabComments" class="list"><div class="empty">Los comentarios aparecerán acá.</div></div>
+    <div class="field" style="margin-top:15px"><label for="collabComment">DEJAR UN COMENTARIO</label><textarea id="collabComment" placeholder="Ej. cambiar esta rima, probar otro remate…" style="min-height:85px" disabled></textarea></div>
+    <button class="btn cyan" id="collabSendComment" disabled>Publicar comentario</button>
+    <div class="note-footer">Los proyectos de esta sala se guardan en Supabase y solo los dueños y miembros autorizados pueden leerlos. Los borradores locales siguen siendo independientes.</div>
+   </div>
+  </section>
  </section>
 
  <section class="view" id="view-settings">
@@ -197,5 +254,45 @@ function init(){for(let i=0;i<55;i++){const b=document.createElement('i');b.styl
 init();
 })();
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+'use strict';
+const URL='https://rpurzucmvqbcrfurdgtz.supabase.co';
+const KEY='sb_publishable_toE1urxNevTNjpM2lgTKPg_OM50bmHk';
+const sb=window.supabase&&window.supabase.createClient?window.supabase.createClient(URL,KEY):null;
+const $=id=>document.getElementById(id);
+let sessionUser=null, activeShared=null, activeInviteText='';
+function status(msg,ok){$('collabStatus').classList.toggle('connected',!!ok);$('collabStatus').innerHTML='<span class="circle"></span><span>'+msg+'</span>';$('collabState').textContent=ok?'CONECTADO':'SIN CONECTAR'}
+function cleanError(e){const m=(e&&e.message)||'Ocurrió un error inesperado.';return m.length>190?m.slice(0,187)+'…':m}
+function say(msg){const el=document.getElementById('toast');if(el){el.textContent=msg;el.classList.add('show');clearTimeout(window.__novaCollabToast);window.__novaCollabToast=setTimeout(()=>el.classList.remove('show'),3000)}}
+function requireAuth(){if(!sb){say('No se pudo cargar el servicio de la sala. Revisá tu conexión.');return false}if(!sessionUser){say('Primero iniciá sesión.');return false}return true}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function localProjects(){try{return JSON.parse(localStorage.getItem('nova_projects_v1')||'[]')}catch(e){return []}}
+function setSignedIn(user){sessionUser=user;$('collabAuth').classList.toggle('hidden',!!user);$('collabLogged').classList.toggle('hidden',!user);$('collabUser').textContent=user?'Conectado como '+user.email:'';status(user?'Sesión iniciada':'Sesión cerrada',!!user);const controls=['collabCreate','collabJoin','collabRefresh'];controls.forEach(id=>$(id).disabled=!user);if(user)loadProjects();else{$('collabProjects').innerHTML='<div class="empty">Iniciá sesión para ver tus proyectos compartidos.</div>';selectShared(null)}}
+async function signIn(){if(!sb){status('No se pudo cargar Supabase JS.',false);return}const email=$('collabEmail').value.trim(),password=$('collabPassword').value;if(!email||!password){say('Completá el correo y la contraseña.');return}try{status('Iniciando sesión…',false);const r=await sb.auth.signInWithPassword({email,password});if(r.error)throw r.error;setSignedIn(r.data.user);say('Sesión iniciada.')}catch(e){status(cleanError(e),false);say(cleanError(e))}}
+async function signUp(){if(!sb){say('No se pudo cargar el servicio de la sala.');return}const email=$('collabEmail').value.trim(),password=$('collabPassword').value;if(!email||!password||password.length<6){say('Poné un correo válido y una contraseña de 6 caracteres o más.');return}try{status('Creando cuenta…',false);const r=await sb.auth.signUp({email,password});if(r.error)throw r.error;if(r.data.session){setSignedIn(r.data.user);say('Cuenta creada y sesión iniciada.')}else{status('Cuenta creada. Revisá el correo para confirmarla.',false);say('Revisá tu correo para confirmar la cuenta.')}}catch(e){status(cleanError(e),false);say(cleanError(e))}}
+async function signOut(){if(!sb)return;await sb.auth.signOut();setSignedIn(null);say('Sesión cerrada.')}
+function selectShared(p){activeShared=p;$('sharedCurrentTitle').textContent=p?'05 / '+p.title:'05 / Sala de trabajo';$('sharedCurrentMeta').textContent=p?(p.genre||'Sin género')+' · creado '+new Date(p.created_at).toLocaleDateString('es-AR'):'Elegí un proyecto para ver comentarios.';$('sharedEditLyrics').value=p?p.original_lyrics:'';$('sharedEditLyrics').disabled=!p;$('collabInvite').disabled=!p;$('collabVersion').disabled=!p;$('collabSaveLyrics').disabled=!p;$('collabLoadLocal').disabled=!p;$('collabComment').disabled=!p;$('collabSendComment').disabled=!p;$('collabInviteResult').classList.add('hidden');if(p)loadComments(p.id);else $('collabComments').innerHTML='<div class="empty">Los comentarios aparecerán acá.</div>'}
+async function loadProjects(){if(!requireAuth())return;const box=$('collabProjects');box.innerHTML='<div class="empty">Cargando salas…</div>';try{const {data:owned,error:e1}=await sb.from('nova_projects').select('*').order('updated_at',{ascending:false});if(e1)throw e1;const {data:members,error:e2}=await sb.from('nova_project_members').select('project_id').eq('user_id',sessionUser.id);if(e2)throw e2;const ids=new Set((members||[]).map(m=>m.project_id));const items=(owned||[]).filter(p=>p.owner_id===sessionUser.id||ids.has(p.id));box.innerHTML=items.length?items.map(p=>'<div class="list-row"><div class="track-art">♫</div><div class="list-info"><strong>'+esc(p.title)+'</strong><small>'+esc(p.genre||'Sin género')+' · '+(p.owner_id===sessionUser.id?'Tu proyecto':'Compartido contigo')+'</small></div><button class="btn" data-shared-open="'+esc(p.id)+'">Abrir</button></div>').join(''):'<div class="empty">Todavía no tenés salas. Creá un proyecto o usá un código de invitación.</div>';box.querySelectorAll('[data-shared-open]').forEach(b=>b.addEventListener('click',()=>selectProject(b.dataset.sharedOpen)))}catch(e){box.innerHTML='<div class="empty">No pude cargar las salas: '+esc(cleanError(e))+'</div>';status(cleanError(e),false)}}
+async function selectProject(id){if(!requireAuth())return;try{const {data,error}=await sb.from('nova_projects').select('*').eq('id',id).single();if(error)throw error;selectShared(data)}catch(e){say(cleanError(e))}}
+async function createProject(){if(!requireAuth())return;const title=$('sharedTitle').value.trim(),genre=$('sharedGenre').value.trim(),lyrics=$('sharedLyrics').value.trim();if(!title||!lyrics){say('Poné el nombre y una letra inicial.');return}try{const {data,error}=await sb.from('nova_projects').insert({owner_id:sessionUser.id,title,genre,original_lyrics:lyrics}).select().single();if(error)throw error;$('sharedTitle').value='';$('sharedGenre').value='';$('sharedLyrics').value='';await loadProjects();selectShared(data);say('Proyecto guardado en la nube.')}catch(e){say(cleanError(e));status(cleanError(e),false)}}
+async function saveLyrics(){if(!requireAuth()||!activeShared)return;try{const lyrics=$('sharedEditLyrics').value;const {error}=await sb.from('nova_projects').update({original_lyrics:lyrics,updated_at:new Date().toISOString()}).eq('id',activeShared.id).eq('owner_id',sessionUser.id);if(error)throw error;const {data,error:e2}=await sb.from('nova_projects').select('*').eq('id',activeShared.id).single();if(e2)throw e2;activeShared=data;await loadProjects();say('Letra actualizada.')}catch(e){say('No se pudo guardar: '+cleanError(e))}}
+async function makeInvite(){if(!requireAuth()||!activeShared)return;if(activeShared.owner_id!==sessionUser.id){say('Solo quien creó el proyecto puede invitar personas.');return}try{const {data,error}=await sb.from('nova_project_invites').insert({project_id:activeShared.id,created_by:sessionUser.id}).select('invite_code,expires_at').single();if(error)throw error;activeInviteText='Código: '+data.invite_code+'\nVence: '+new Date(data.expires_at).toLocaleString('es-AR')+'\nAbrí NOVA > Colaborar e ingresá el código.';$('collabInviteText').textContent=activeInviteText;$('collabInviteResult').classList.remove('hidden');say('Invitación creada. Copiá el código y mandáselo a tu amigo.')}catch(e){say(cleanError(e))}}
+async function joinInvite(){if(!requireAuth())return;const code=$('inviteCode').value.trim();if(!code){say('Pegá un código de invitación.');return}try{const {data,error}=await sb.rpc('nova_accept_invite',{p_invite_code:code});if(error)throw error;$('inviteCode').value='';await loadProjects();await selectProject(data);say('Te uniste a la sala.')}catch(e){say(cleanError(e))}}
+async function loadComments(id){$('collabComments').innerHTML='<div class="empty">Cargando comentarios…</div>';try{const {data,error}=await sb.from('nova_project_comments').select('id,user_id,line_reference,body,created_at').eq('project_id',id).order('created_at',{ascending:true});if(error)throw error;$('collabComments').innerHTML?(data||[]).length?(data||[]).map(c=>'<div class="list-row" style="align-items:flex-start"><div class="track-art">✎</div><div class="list-info"><strong>'+esc(c.line_reference||'Comentario')+'</strong><small>'+new Date(c.created_at).toLocaleString('es-AR')+'</small><div style="white-space:pre-wrap;overflow-wrap:anywhere;margin-top:6px;font-size:12px;color:#d6d9e6">'+esc(c.body)+'</div></div></div>').join(''):'<div class="empty">Todavía no hay comentarios. Dejá el primero.</div>'}catch(e){$('collabComments').innerHTML='<div class="empty">No pude cargar comentarios: '+esc(cleanError(e))+'</div>'}}
+async function sendComment(){if(!requireAuth()||!activeShared)return;const body=$('collabComment').value.trim();if(!body){say('Escribí un comentario primero.');return}try{const {error}=await sb.from('nova_project_comments').insert({project_id:activeShared.id,user_id:sessionUser.id,body});if(error)throw error;$('collabComment').value='';await loadComments(activeShared.id);say('Comentario publicado.')}catch(e){say(cleanError(e))}}
+async function saveVersion(){if(!requireAuth()||!activeShared)return;try{const {error}=await sb.from('nova_project_versions').insert({project_id:activeShared.id,user_id:sessionUser.id,title:'Versión '+new Date().toLocaleString('es-AR'),lyrics:$('sharedEditLyrics').value});if(error)throw error;say('Versión guardada en el historial.')}catch(e){say(cleanError(e))}}
+function loadLocal(){if(!activeShared)return;const title=activeShared.title||'Proyecto compartido';document.getElementById('title').value=title;document.getElementById('genre').value=activeShared.genre||'Urbano';document.getElementById('seed').value=$('sharedEditLyrics').value;document.getElementById('count').textContent=$('sharedEditLyrics').value.trim().split(/\s+/).filter(Boolean).length+' palabras';if(typeof window.go==='function')window.go('create');else{const create=document.querySelector('[data-view="create"]');if(create)create.click()}say('Letra copiada al estudio local.')}
+if(!sb){status('No se pudo cargar Supabase JS. Revisá la conexión del navegador.',false);['collabSignIn','collabSignUp','collabCreate','collabJoin','collabRefresh'].forEach(id=>$(id).disabled=true)}
+else{
+$('collabSignIn').addEventListener('click',signIn);$('collabSignUp').addEventListener('click',signUp);$('collabSignOut').addEventListener('click',signOut);$('collabCreate').addEventListener('click',createProject);$('collabRefresh').addEventListener('click',loadProjects);$('collabJoin').addEventListener('click',joinInvite);$('collabInvite').addEventListener('click',makeInvite);$('collabSaveLyrics').addEventListener('click',saveLyrics);$('collabSendComment').addEventListener('click',sendComment);$('collabVersion').addEventListener('click',saveVersion);$('collabLoadLocal').addEventListener('click',loadLocal);$('collabCopyInvite').addEventListener('click',()=>{const el=document.createElement('textarea');el.value=activeInviteText;document.body.appendChild(el);el.select();try{document.execCommand('copy');say('Invitación copiada.')}catch(e){say('Mantené pulsado el código para copiarlo.')}el.remove()});
+sb.auth.getSession().then(({data,error})=>{if(error)status(cleanError(error),false);setSignedIn(data&&data.session?data.session.user:null)}).catch(e=>status(cleanError(e),false));
+sb.auth.onAuthStateChange((_event,session)=>{setSignedIn(session?session.user:null)});
+}
+})();
+</script>
+
 </body>
 </html>
