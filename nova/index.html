@@ -317,30 +317,32 @@ sb.auth.getSession().then(({data,error})=>{if(error)status(cleanError(error),fal
 sb.auth.onAuthStateChange((_event,session)=>{setSignedIn(session?session.user:null)});
 }
 })();
- // Demo vocal local: usa la voz sintética integrada del navegador, sin API ni clave.
+ // Demo vocal local: usa SpeechSynthesis y muestra fallos en pantalla.
  (function initVoiceDemo(){
   const textBox=document.getElementById('seed'), voiceSelect=document.getElementById('voiceSelect'), rate=document.getElementById('voiceRate'), rateValue=document.getElementById('voiceRateValue'), play=document.getElementById('voicePlay'), pause=document.getElementById('voicePause'), stop=document.getElementById('voiceStop'), status=document.getElementById('voiceStatus');
-  if(!textBox||!voiceSelect||!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window)){if(status)status.textContent='Este navegador no ofrece voz sintética. Probá abrir NOVA en Chrome actualizado.';if(play)play.disabled=true;return}
-  let voices=[],runId=0,paused=false;
-  function loadVoices(){voices=window.speechSynthesis.getVoices();const prev=voiceSelect.value;voiceSelect.innerHTML='<option value="">Voz predeterminada del teléfono</option>';voices.forEach((v,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=v.name+' ('+v.lang+')';voiceSelect.appendChild(o)});const es=voices.findIndex(v=>/^es(-|$)/i.test(v.lang));if(prev)voiceSelect.value=prev;else if(es>=0)voiceSelect.value=String(es)}
-  loadVoices();window.speechSynthesis.onvoiceschanged=loadVoices;
+  if(!textBox||!voiceSelect||!play||!status)return;
+  if(!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window)){status.textContent='La vista interna no permite reproducir voz. Abrí esta página en Chrome para probar audio.';play.disabled=true;return}
+  const synth=window.speechSynthesis;let voices=[],runId=0;
+  function loadVoices(){voices=synth.getVoices()||[];const previous=voiceSelect.value;voiceSelect.innerHTML='<option value="">Voz predeterminada del teléfono</option>';voices.forEach((v,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=v.name+' ('+v.lang+')';voiceSelect.appendChild(o)});const es=voices.findIndex(v=>/^es(-|$)/i.test(v.lang));voiceSelect.value=previous|| (es>=0?String(es):'')}
+  loadVoices();if(synth.onvoiceschanged!==undefined)synth.onvoiceschanged=loadVoices;
   rate.addEventListener('input',()=>rateValue.textContent=Number(rate.value).toFixed(2).replace(/0$/,'')+'×');
-  function setBusy(b){play.disabled=b;pause.disabled=!b;stop.disabled=!b}
-  function stopDemo(message){runId++;window.speechSynthesis.cancel();paused=false;setBusy(false);pause.textContent='Ⅱ Pausar';if(message)status.textContent=message}
-  play.addEventListener('click',()=>{const lyrics=textBox.value.trim();if(!lyrics){status.textContent='Primero pegá una letra en el cuadro de arriba.';textBox.focus();return}stopDemo();const myRun=++runId,lines=lyrics.split(/\n+/).map(x=>x.trim()).filter(Boolean);let index=0;paused=false;setBusy(true);status.textContent='Preparando demo vocal…';const speakNext=()=>{if(myRun!==runId||paused)return;if(index>=lines.length){setBusy(false);status.textContent='Demo terminada.';return}const line=lines[index++],u=new SpeechSynthesisUtterance(line),vi=voiceSelect.value===''?-1:Number(voiceSelect.value);if(vi>=0&&voices[vi])u.voice=voices[vi];u.rate=Number(rate.value);u.pitch=1;u.volume=1;u.onstart=()=>{if(myRun===runId)status.textContent='Barra '+index+' de '+lines.length+' · reproduciendo…'};u.onend=()=>{if(myRun===runId&&!paused)setTimeout(speakNext,180)};u.onerror=e=>{if(myRun===runId&&e.error!=='canceled'&&e.error!=='interrupted')stopDemo('No se pudo reproducir la voz. Probá otra voz del teléfono.')};window.speechSynthesis.speak(u)};speakNext()});
-  pause.addEventListener('click',()=>{if(window.speechSynthesis.paused){window.speechSynthesis.resume();paused=false;pause.textContent='Ⅱ Pausar';status.textContent='Reanudando demo…'}else{window.speechSynthesis.pause();paused=true;pause.textContent='▶ Reanudar';status.textContent='Demo pausada.'}});
-  stop.addEventListener('click',()=>stopDemo('Demo detenida.'));
-  window.addEventListener('beforeunload',()=>window.speechSynthesis.cancel());
-  const copySong=document.getElementById('copyLyricsForSong'), copyStatus=document.getElementById('songLinkStatus');
-  if(copySong)copySong.addEventListener('click',async()=>{
-    const lyrics=textBox.value.trim();
-    if(!lyrics){copyStatus.textContent='Primero pegá tu letra en el cuadro de arriba.';textBox.focus();return}
-    try{
-      if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(lyrics)}
-      else{const temp=document.createElement('textarea');temp.value=lyrics;temp.style.position='fixed';temp.style.opacity='0';document.body.appendChild(temp);temp.select();const ok=document.execCommand('copy');temp.remove();if(!ok)throw new Error('copy')}
-      copyStatus.textContent='Letra copiada. Abrí la demo cantada, pegala y elegí el estilo musical.';
-    }catch(e){copyStatus.textContent='No pude copiar automáticamente. Mantené pulsado el texto de tu letra para copiarlo manualmente.'}
+  function controls(b){play.disabled=b;pause.disabled=!b;stop.disabled=!b}
+  function cancel(message){runId++;synth.cancel();controls(false);pause.textContent='Ⅱ Pausar';if(message)status.textContent=message}
+  play.addEventListener('click',()=>{
+   const lyrics=textBox.value.trim();if(!lyrics){status.textContent='Primero pegá una letra arriba.';textBox.focus();return}
+   cancel();const id=++runId;let started=false;controls(true);status.textContent='Iniciando audio…';
+   const utter=new SpeechSynthesisUtterance(lyrics.replace(/\n{2,}/g,'. ').replace(/\n/g,', '));
+   const idx=voiceSelect.value===''?-1:Number(voiceSelect.value);if(idx>=0&&voices[idx])utter.voice=voices[idx];else utter.lang='es-AR';
+   utter.rate=Number(rate.value);utter.pitch=1;utter.volume=1;
+   utter.onstart=()=>{if(id===runId){started=true;status.textContent='🔊 Reproduciendo letra…'}};
+   utter.onend=()=>{if(id===runId){controls(false);status.textContent='Terminó la demo de voz.'}};
+   utter.onerror=(e)=>{if(id===runId){controls(false);status.textContent='El navegador no pudo reproducir audio ('+e.error+'). Abrí NOVA en Chrome y revisá el volumen multimedia del teléfono.'}};
+   synth.speak(utter);
+   setTimeout(()=>{if(id===runId&&!started&&!synth.speaking){controls(false);status.textContent='No arrancó el audio en esta vista. Abrí el enlace en Chrome y probá otra vez.'}},1800);
   });
+  pause.addEventListener('click',()=>{if(synth.paused){synth.resume();pause.textContent='Ⅱ Pausar';status.textContent='Reanudando…'}else if(synth.speaking){synth.pause();pause.textContent='▶ Reanudar';status.textContent='Demo pausada.'}});
+  stop.addEventListener('click',()=>cancel('Demo detenida.'));
+  window.addEventListener('pagehide',()=>synth.cancel());
  })();
 </script>
 
