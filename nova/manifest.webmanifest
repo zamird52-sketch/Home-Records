@@ -1,0 +1,25 @@
+{
+  "name": "NOVA — Home Records Creative OS",
+  "short_name": "NOVA",
+  "description": "Tu espacio creativo para escribir, organizar y desarrollar canciones.",
+  "lang": "es-AR",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#08090d",
+  "theme_color": "#08090d",
+  "categories": [
+    "music",
+    "productivity",
+    "utilities"
+  ],
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
