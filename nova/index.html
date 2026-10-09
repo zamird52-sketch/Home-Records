@@ -78,12 +78,12 @@
        <p class="count" style="margin-top:8px">Esta versión habla la letra con ritmo de lectura; todavía no canta una melodía. No necesita cuenta, clave ni permisos especiales.</p>
        <div style="border-top:1px solid var(--line,rgba(255,255,255,.1));margin-top:16px;padding-top:16px">
         <div class="eyebrow">PRUEBA DE VOZ CANTADA</div>
-        <p style="font-size:13px;line-height:1.6;color:var(--muted,#a5a9bb);margin:8px 0 12px">Para generar una canción real con melodía, voz y acompañamiento, NOVA te conecta con una demo online gratuita. Copiá tu letra y pegala allí; el servicio puede tener colas o límites de uso.</p>
+        <p style="font-size:13px;line-height:1.6;color:var(--muted,#a5a9bb);margin:8px 0 12px">NOVA prepara tu letra y una descripción musical para llevarlas al compositor oficial YuE2. La canción se genera en la página externa; puede haber límites de uso.</p>
         <div class="toolrow" style="flex-wrap:wrap">
-         <button class="btn ghost" id="copyLyricsForSong">▣ Copiar mi letra</button>
+         <button class="btn ghost" id="copyLyricsForSong">▣ Preparar letra + estilo</button>
          <a class="btn primary" href="https://yue.noizai.net" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-flex;align-items:center">🎵 Abrir demo cantada ↗</a>
         </div>
-        <div class="count" id="songLinkStatus" role="status" aria-live="polite" style="margin-top:8px">Demo online de YuE2; no está conectada por API directamente a NOVA.</div>
+        <div class="count" id="songLinkStatus" role="status" aria-live="polite" style="margin-top:8px">Conexión asistida: preparar en NOVA → pegar en YuE2 → generar y escuchar allí.</div>
        </div>
       </div>
      </div>
@@ -317,6 +317,27 @@ sb.auth.getSession().then(({data,error})=>{if(error)status(cleanError(error),fal
 sb.auth.onAuthStateChange((_event,session)=>{setSignedIn(session?session.user:null)});
 }
 })();
+ // Conector asistido de YuE2: prepara letra y dirección musical para el compositor externo.
+ (function initSongGeneratorLink(){
+  const button=document.getElementById('copyLyricsForSong'), box=document.getElementById('seed'), status=document.getElementById('songLinkStatus');
+  if(!button||!box||!status)return;
+  button.addEventListener('click',()=>{
+   const lyrics=box.value.trim();
+   if(!lyrics){status.textContent='Primero pegá tu letra en el campo principal.';box.focus();return}
+   const genre=document.getElementById('genre')?.value||'urbano';
+   const attitude=document.getElementById('attitude')?.value||'directo y natural';
+   const bpm=document.getElementById('bpm')?.value||'96';
+   const prompt='Canción en español, género '+genre+', delivery '+attitude+', '+bpm+' BPM. Voz principal clara, instrumental completo, ritmo marcado y estructura de verso/coro. Respetar las palabras de la letra.';
+   const payload='DESCRIPCIÓN / ESTILO:\n'+prompt+'\n\nLETRA:\n'+lyrics;
+   function report(message){status.textContent=message}
+   if(navigator.clipboard&&window.isSecureContext){
+    navigator.clipboard.writeText(payload).then(()=>report('Letra + estilo copiados. En YuE2 pegá la descripción en “Song description” y la letra en “Lyrics”.')).catch(()=>report('No se pudo copiar automáticamente. Copiá la letra manualmente y pegá el estilo en su campo.'));
+   }else{
+    const ta=document.createElement('textarea');ta.value=payload;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();
+    try{report(document.execCommand('copy')?'Letra + estilo copiados. En YuE2 pegá cada parte en su campo.':'No se pudo copiar automáticamente; copiá la letra manualmente.')}catch(e){report('No se pudo copiar automáticamente; copiá la letra manualmente.')}ta.remove();
+   }
+  });
+ })();
  // Demo vocal local: divide la letra en fragmentos cortos para evitar fallos de TTS en Android.
  (function initVoiceDemo(){
   const textBox=document.getElementById('seed'), voiceSelect=document.getElementById('voiceSelect'), rate=document.getElementById('voiceRate'), rateValue=document.getElementById('voiceRateValue'), play=document.getElementById('voicePlay'), pause=document.getElementById('voicePause'), stop=document.getElementById('voiceStop'), status=document.getElementById('voiceStatus');
