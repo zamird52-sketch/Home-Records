@@ -1,108 +1,40 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#080808">
-<title>Home Records — Libreta</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#090909">
+<title>Home Records — Tu espacio creativo</title>
 <style>
-:root{color-scheme:dark;--red:#ff202b;--deep:#6b080d;--panel:rgba(13,13,15,.94);--muted:#aaa}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:#050505;color:#f8f8f8;font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
-body:before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(ellipse at 50% 0,#4a0509 0,transparent 45%),radial-gradient(ellipse at 50% 100%,#210306 0,transparent 48%)}
-#rain{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
-.devil{position:absolute;top:-55px;animation:fall linear infinite;opacity:.55;filter:drop-shadow(0 0 8px #f00);user-select:none}
-@keyframes fall{to{transform:translateY(112vh) rotate(360deg)}}
-.app{position:relative;z-index:1;width:min(100%,760px);margin:auto;padding:18px 14px 40px}
-header{text-align:center;padding:12px 0 22px}
-.logo{font-weight:950;letter-spacing:4px;font-size:clamp(25px,7vw,36px);text-shadow:0 0 8px #f22,0 0 24px #e0000b}
-.logo span{color:var(--red)}
-.tag{font-size:11px;letter-spacing:3px;color:#aaa;margin-top:8px}
-.panel{background:var(--panel);border:1px solid #681015;border-radius:20px;padding:18px;box-shadow:0 0 24px #ff00151a,inset 0 0 25px #ff001508;backdrop-filter:blur(8px)}
-.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:15px}
-.tab{min-width:0;padding:13px 6px;border:1px solid #531015;border-radius:12px;background:#111;color:#ddd;font-weight:800;font-size:13px;box-shadow:none}
-.tab.active{background:linear-gradient(135deg,#ed111b,#8d080d);border-color:#ff6268;color:white;box-shadow:0 0 17px #f00a}
-h1,h2{margin:0 0 10px}h1{font-size:24px}h2{font-size:20px}
-.muted{color:var(--muted);font-size:13px;line-height:1.5;margin:0 0 16px}
-label{display:block;color:#ddd;font-size:12px;font-weight:800;letter-spacing:1px;margin:14px 0 7px;text-transform:uppercase}
-input,textarea{display:block;width:100%;min-width:0;background:#080808;border:1px solid #511014;border-radius:12px;padding:13px;color:white;font:inherit;font-size:16px;outline:none}
-input:focus,textarea:focus{border-color:#ff313b;box-shadow:0 0 0 2px #ff202b20}
-textarea{min-height:43vh;resize:vertical;line-height:1.65}
-button{cursor:pointer;font:inherit}
-.action{width:100%;padding:14px;border:0;border-radius:12px;background:linear-gradient(135deg,#f31a24,#9a070d);color:white;font-weight:900;box-shadow:0 0 14px #ff001a30}
-.secondary{padding:11px 13px;border-radius:11px;background:#151515;border:1px solid #571015;color:#eee;box-shadow:none;font-weight:700}
-.danger{padding:10px 12px;border-radius:10px;background:#27090b;border:1px solid #6a1218;color:#ff9297;box-shadow:none}
-.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.row>*{flex:1}
-.status{min-height:18px;color:#ff858a;font-size:12px;margin-top:10px}
-.section-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:14px}
-.counter{font-size:11px;color:#aaa;border:1px solid #461015;border-radius:20px;padding:6px 9px;white-space:nowrap}
-.list{display:grid;gap:9px;margin-top:14px}
-.item{display:flex;align-items:center;gap:10px;padding:13px;background:#090909;border:1px solid #421014;border-radius:13px}
-.item-main{flex:1;min-width:0}.item-title{font-weight:800;overflow-wrap:anywhere}.item-sub{font-size:11px;color:#888;margin-top:5px;white-space:pre-wrap;overflow-wrap:anywhere}
-.item-actions{display:flex;gap:6px;flex-wrap:wrap}.item-actions button{font-size:12px;padding:9px 10px}
-.empty{padding:26px 10px;text-align:center;color:#858585;border:1px dashed #4b1418;border-radius:13px;line-height:1.6}
-.hidden{display:none!important}
-.notice{font-size:11px;color:#888;line-height:1.5;margin-top:16px;text-align:center}
-footer{text-align:center;color:#666;font-size:10px;letter-spacing:2px;margin:22px 0 0}
-@media(min-width:560px){.app{padding:24px 20px 50px}.panel{padding:24px}.tab{font-size:15px}textarea{min-height:420px}}
+:root{--bg:#080808;--card:#111;--line:#292929;--red:#ff303b;--soft:#ff6c73;--muted:#9b9b9b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#f6f6f6;font-family:Inter,system-ui,-apple-system,Arial,sans-serif;min-height:100vh}body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% -10%,#6d1018 0,transparent 45%),linear-gradient(180deg,#0a0a0a,#080808 70%);z-index:-2}#rain{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:-1}.devil{position:absolute;top:-40px;opacity:.28;animation:fall linear infinite;filter:drop-shadow(0 0 8px #ff1826)}@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}button,input,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:850px;margin:auto;padding:22px 16px 42px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:34px}.brand{font-weight:950;font-size:clamp(22px,5vw,31px);letter-spacing:2px}.brand b{color:var(--red);text-shadow:0 0 20px #f22a}.edition{font-size:10px;color:#aaa;letter-spacing:2px;margin-top:6px}.status-pill{font-size:11px;color:#ff9da2;border:1px solid #5c1d22;border-radius:30px;padding:8px 11px;white-space:nowrap}.hero{margin-bottom:24px}.eyebrow{font-size:10px;letter-spacing:3px;color:var(--soft);font-weight:800}.hero h1{font-size:clamp(29px,7vw,45px);line-height:1.08;letter-spacing:-1.4px;margin:10px 0}.hero p{color:var(--muted);font-size:14px;line-height:1.6;margin:0;max-width:520px}.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:24px 0 14px}.tab{background:#111;border:1px solid #2d2021;color:#ccc;border-radius:14px;padding:15px 5px;font-size:13px;font-weight:800;transition:.2s}.tab span{display:block;font-size:20px;margin-bottom:7px}.tab.active{background:linear-gradient(145deg,#381014,#171011);border-color:#a52a33;color:#fff;box-shadow:0 0 22px #ff203016,inset 0 0 18px #ff20200b}.panel{background:linear-gradient(145deg,#131313ed,#0d0d0df2);border:1px solid #292929;border-radius:20px;padding:clamp(16px,4vw,25px);box-shadow:0 18px 55px #0008}.hidden{display:none!important}.head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:18px}.head h2{font-size:22px;margin:0 0 6px}.sub{color:var(--muted);font-size:13px;line-height:1.5;margin:0}.count{font-size:11px;color:#bbb;background:#1b1b1b;border:1px solid #333;border-radius:30px;padding:7px 10px;white-space:nowrap}label{display:block;color:#c7c7c7;font-size:11px;font-weight:800;letter-spacing:1.3px;text-transform:uppercase;margin:15px 0 8px}input,textarea{width:100%;border:1px solid #303030;background:#090909;color:#f8f8f8;border-radius:13px;padding:14px;font-size:16px;outline:none;min-width:0}input:focus,textarea:focus{border-color:#b52a33;box-shadow:0 0 0 3px #ff303b13}textarea{resize:vertical;min-height:38vh;line-height:1.75}#songContent{min-height:34vh}.tools{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}.btn{border-radius:12px;border:1px solid #383838;background:#191919;color:#eee;padding:13px 15px;font-weight:750;font-size:13px}.btn.primary{background:linear-gradient(135deg,#ff343f,#a50e19);border-color:#ff4b54;color:#fff;box-shadow:0 5px 20px #f11b2828}.tools .btn{flex:1}.hint{color:#858585;font-size:11px;line-height:1.5;margin-top:11px}.message{min-height:19px;font-size:12px;color:#ff8c93;margin-top:10px}.collection{margin-top:25px}.collection h3{font-size:14px;letter-spacing:.3px;margin:0 0 12px}.list{display:grid;gap:9px}.entry{display:flex;align-items:center;gap:12px;padding:14px;background:#0a0a0a;border:1px solid #2a2a2a;border-radius:14px}.entry-copy{flex:1;min-width:0}.entry-title{font-size:14px;font-weight:800;overflow-wrap:anywhere}.entry-preview{color:#888;font-size:12px;line-height:1.45;margin-top:5px;white-space:pre-wrap;overflow-wrap:anywhere}.entry-actions{display:flex;gap:6px;flex-wrap:wrap}.entry-actions button{padding:9px 10px;font-size:11px}.btn.small{padding:9px 10px;font-size:11px}.btn.delete{color:#ff9ba0;border-color:#512126;background:#1d0d0f}.empty{text-align:center;padding:25px 14px;border:1px dashed #343434;border-radius:14px;color:#888;font-size:13px;line-height:1.6}.footer{text-align:center;color:#666;font-size:10px;letter-spacing:2px;margin-top:24px}.footer small{display:block;letter-spacing:0;margin-top:8px;font-size:10px;color:#555}@media(min-width:600px){.wrap{padding-top:30px}.tab{font-size:14px}.tab span{font-size:22px}textarea{min-height:440px}#songContent{min-height:400px}}
 </style>
 </head>
-<body>
-<div id="rain" aria-hidden="true"></div>
-<main class="app">
-<header><div class="logo">HOME <span>RECORDS</span></div><div class="tag">TU ESPACIO · TUS PALABRAS</div></header>
-<nav class="tabs" aria-label="Apartados">
-<button class="tab active" data-tab="libreta" onclick="openTab('libreta')">📝 Libreta</button>
-<button class="tab" data-tab="beats" onclick="openTab('beats')">🎧 Beats</button>
-<button class="tab" data-tab="guardar" onclick="openTab('guardar')">💾 Guardar</button>
-</nav>
-<section id="libreta" class="panel">
-<div class="section-head"><div><h1>Tu libreta</h1><p class="muted" style="margin:5px 0 0">Escribí sin apuro. Se guarda automáticamente en este dispositivo.</p></div><span class="counter" id="wordCount">0 palabras</span></div>
-<textarea id="draft" placeholder="Arrancá con una frase, un coro o una idea..."></textarea>
-<div class="row"><button class="secondary" onclick="clearDraft()">Limpiar borrador</button><button class="action" onclick="openTab('guardar')">Guardar como letra →</button></div>
-<div class="status" id="draftStatus" aria-live="polite">Borrador listo.</div>
-</section>
-<section id="beats" class="panel hidden">
-<div class="section-head"><div><h1>🎧 Tus beats</h1><p class="muted" style="margin:5px 0 0">Ordená instrumentales por nombre, estilo o enlace.</p></div></div>
-<label for="beatName">Nombre del beat</label><input id="beatName" maxlength="100" placeholder="Ej.: Detroit oscuro 140 BPM">
-<label for="beatLink">Enlace (opcional)</label><input id="beatLink" maxlength="500" type="url" placeholder="https://...">
-<label for="beatNotes">Notas (opcional)</label><textarea id="beatNotes" style="min-height:110px" placeholder="BPM, vibra, idea para el tema..."></textarea>
-<button class="action" style="margin-top:12px" onclick="saveBeat()">＋ Guardar beat</button>
-<div id="beatList" class="list"></div>
-</section>
-<section id="guardar" class="panel hidden">
-<div class="section-head"><div><h1>💾 Guardar letras</h1><p class="muted" style="margin:5px 0 0">Poné un nombre y guardá cada tema en su lugar.</p></div><span class="counter" id="savedCount">0 letras</span></div>
-<label for="songTitle">Nombre de la letra</label><input id="songTitle" maxlength="120" placeholder="Ej.: Is Back">
-<label for="songContent">Letra</label><textarea id="songContent" placeholder="Escribí acá o traé el borrador de tu libreta..."></textarea>
-<div class="row"><button class="secondary" onclick="loadDraft()">Traer borrador</button><button class="action" onclick="saveSong()">Guardar letra</button></div>
-<div class="status" id="saveStatus" aria-live="polite"></div>
-<h2 style="margin-top:25px">Tu colección</h2><div id="songList" class="list"></div>
-</section>
-<p class="notice">Tus borradores, letras y beats se guardan en este navegador. Por ahora no se sincronizan entre dispositivos.</p>
-<footer>HOME RECORDS • ESCRIBÍ LO TUYO</footer>
+<body><div id="rain" aria-hidden="true"></div><main class="wrap">
+<header class="top"><div><div class="brand">HOME <b>RECORDS</b></div><div class="edition">CREATIVE SPACE · EST. YOUR STORY</div></div><div class="status-pill">● TU ESPACIO</div></header>
+<section class="hero"><div class="eyebrow">TU MÚSICA EMPIEZA ACÁ</div><h1>Ideas que merecen<br><span style="color:#ff414b">quedar escritas.</span></h1><p>Un lugar para soltar las ideas, guardar tus letras y tener tus conceptos ordenados. Sin vueltas.</p></section>
+<nav class="tabs" aria-label="Secciones"><button class="tab active" data-tab="libreta" onclick="openTab('libreta')"><span>✎</span>Libreta</button><button class="tab" data-tab="beats" onclick="openTab('beats')"><span>♫</span>Beats</button><button class="tab" data-tab="guardar" onclick="openTab('guardar')"><span>▣</span>Guardar</button></nav>
+<section id="libreta" class="panel"><div class="head"><div><h2>Tu libreta</h2><p class="sub">Escribí libre. El borrador se guarda solo en este dispositivo.</p></div><span class="count" id="wordCount">0 palabras</span></div><textarea id="draft" placeholder="Una frase, un coro, una idea suelta… empezá acá."></textarea><div class="tools"><button class="btn" onclick="clearDraft()">Limpiar</button><button class="btn primary" onclick="sendDraftToSave()">Guardar letra →</button></div><div class="message" id="draftStatus" aria-live="polite">Borrador listo.</div></section>
+<section id="beats" class="panel hidden"><div class="head"><div><h2>Tu espacio de beats</h2><p class="sub">Guardá nombres, conceptos y notas de tus instrumentales. Solo escribí.</p></div></div><label for="beatName">Nombre o título</label><input id="beatName" maxlength="100" placeholder="Ej.: Detroit oscuro"><label for="beatNotes">Tus notas</label><textarea id="beatNotes" style="min-height:190px" placeholder="BPM, estilo, ideas, referencias escritas…"></textarea><div class="tools"><button class="btn" onclick="resetBeat()">Limpiar</button><button class="btn primary" onclick="saveBeat()">Guardar idea</button></div><div class="message" id="beatStatus" aria-live="polite"></div><div class="collection"><h3>Mis ideas <span class="count" id="beatCount">0</span></h3><div id="beatList" class="list"></div></div></section>
+<section id="guardar" class="panel hidden"><div class="head"><div><h2>Guardar letras</h2><p class="sub">Cada tema con su nombre, listo para volver cuando quieras.</p></div><span class="count" id="savedCount">0 letras</span></div><label for="songTitle">Título de la letra</label><input id="songTitle" maxlength="120" placeholder="Poné el nombre de tu tema"><label for="songContent">Letra</label><textarea id="songContent" placeholder="Tu letra va acá…"></textarea><div class="tools"><button class="btn" onclick="newSong()">Nueva</button><button class="btn primary" onclick="saveSong()">Guardar cambios</button></div><div class="message" id="saveStatus" aria-live="polite"></div><div class="collection"><h3>Mi colección</h3><div id="songList" class="list"></div></div></section>
+<div class="footer">HOME RECORDS · HECHO PARA CREAR<small>Los datos se guardan en este navegador y dispositivo.</small></div>
 </main>
 <script>
-const $=id=>document.getElementById(id);
-let editSongId=null, editBeatId=null;
-const read=(key,fallback=[])=>{try{return JSON.parse(localStorage.getItem(key)||JSON.stringify(fallback))}catch{return fallback}};
-const write=(key,value)=>localStorage.setItem(key,JSON.stringify(value));
-function openTab(id){['libreta','beats','guardar'].forEach(tab=>$(tab).classList.toggle('hidden',tab!==id));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));if(id==='beats')renderBeats();if(id==='guardar')renderSongs();window.scrollTo({top:0,behavior:'smooth'})}
-function wordCount(s){const t=s.trim();return t?t.split(/\s+/).length:0}
-function updateDraftCount(){$('wordCount').textContent=wordCount($('draft').value)+' palabras';localStorage.setItem('hr_draft',$('draft').value);$('draftStatus').textContent='Borrador guardado en este dispositivo ✓'}
-$('draft').value=localStorage.getItem('hr_draft')||'';updateDraftCount();$('draft').addEventListener('input',updateDraftCount);
-function clearDraft(){if(!$('draft').value.trim())return;$('draft').value='';updateDraftCount();$('draftStatus').textContent='Borrador limpio.'}
-function loadDraft(){$('songContent').value=$('draft').value; $('songTitle').focus();$('saveStatus').textContent='Borrador copiado al editor.'}
-function saveSong(){const title=$('songTitle').value.trim();const content=$('songContent').value.trim();if(!title){$('saveStatus').textContent='Primero poné un nombre para la letra.';$('songTitle').focus();return}if(!content){$('saveStatus').textContent='La letra está vacía. Escribí algo antes de guardar.';$('songContent').focus();return}const songs=read('hr_saved_songs');const now=new Date().toISOString();if(editSongId){const s=songs.find(x=>x.id===editSongId);if(s){s.title=title;s.content=content;s.updated=now}}else{songs.unshift({id:Date.now().toString(),title,content,created:now,updated:now})}write('hr_saved_songs',songs);editSongId=null;$('songTitle').value='';$('songContent').value='';$('saveStatus').textContent='Letra guardada ✓';renderSongs()}
-function renderSongs(){const songs=read('hr_saved_songs');$('savedCount').textContent=songs.length+' letras';const box=$('songList');if(!songs.length){box.innerHTML='<div class="empty">Todavía no guardaste letras.<br>Escribí una arriba y poné su nombre.</div>';return}box.innerHTML=songs.map(s=>'<article class="item"><div class="item-main"><div class="item-title">'+esc(s.title)+'</div><div class="item-sub">'+esc(s.content.slice(0,110))+(s.content.length>110?'…':'')+'</div><div class="item-sub">'+esc(new Date(s.updated||s.created).toLocaleDateString())+'</div></div><div class="item-actions"><button class="secondary" onclick="editSong(\''+s.id+'\')">Abrir</button><button class="danger" onclick="deleteSong(\''+s.id+'\')">Borrar</button></div></article>').join('')}
-function editSong(id){const s=read('hr_saved_songs').find(x=>x.id===id);if(!s)return;editSongId=id;$('songTitle').value=s.title;$('songContent').value=s.content;$('saveStatus').textContent='Editando: '+s.title;window.scrollTo({top:0,behavior:'smooth'})}
-function deleteSong(id){if(!confirm('¿Borrar esta letra?'))return;write('hr_saved_songs',read('hr_saved_songs').filter(s=>s.id!==id));if(editSongId===id){editSongId=null;$('songTitle').value='';$('songContent').value=''}renderSongs()}
-function saveBeat(){const name=$('beatName').value.trim();if(!name){alert('Poné un nombre para el beat.');$('beatName').focus();return}const beats=read('hr_beats');const beat={id:editBeatId||Date.now().toString(),name,link:$('beatLink').value.trim(),notes:$('beatNotes').value.trim(),updated:new Date().toISOString()};const i=beats.findIndex(b=>b.id===beat.id);if(i>=0)beats[i]=beat;else beats.unshift(beat);write('hr_beats',beats);editBeatId=null;$('beatName').value='';$('beatLink').value='';$('beatNotes').value='';renderBeats()}
-function renderBeats(){const beats=read('hr_beats');const box=$('beatList');if(!beats.length){box.innerHTML='<div class="empty">Todavía no guardaste beats.<br>Agregá uno arriba para mantener todo ordenado.</div>';return}box.innerHTML=beats.map(b=>'<article class="item"><div class="item-main"><div class="item-title">'+esc(b.name)+'</div>'+(b.link?'<div class="item-sub"><a style="color:#ff6a70" href="'+safeUrl(b.link)+'" target="_blank" rel="noopener noreferrer">Abrir enlace ↗</a></div>':'')+(b.notes?'<div class="item-sub">'+esc(b.notes)+'</div>':'')+'</div><div class="item-actions"><button class="secondary" onclick="editBeat(\''+b.id+'\')">Editar</button><button class="danger" onclick="deleteBeat(\''+b.id+'\')">Borrar</button></div></article>').join('')}
-function editBeat(id){const b=read('hr_beats').find(x=>x.id===id);if(!b)return;editBeatId=id;$('beatName').value=b.name;$('beatLink').value=b.link||'';$('beatNotes').value=b.notes||'';window.scrollTo({top:0,behavior:'smooth'})}
-function deleteBeat(id){if(!confirm('¿Borrar este beat de tu lista?'))return;write('hr_beats',read('hr_beats').filter(b=>b.id!==id));renderBeats()}
-function safeUrl(u){try{const x=new URL(u);return ['http:','https:'].includes(x.protocol)?esc(x.href):'#'}catch{return '#'}}
-function esc(x){return String(x).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-(function(){const rain=$('rain');for(let i=0;i<30;i++){const e=document.createElement('span');e.className='devil';e.textContent='👹';e.style.left=Math.random()*100+'%';e.style.animationDuration=(6+Math.random()*10)+'s';e.style.animationDelay=(-Math.random()*14)+'s';e.style.fontSize=(15+Math.random()*19)+'px';rain.appendChild(e)}renderSongs()})();
-</script>
-</body>
-</html>
+const $=id=>document.getElementById(id);let editSongId=null,editBeatId=null;
+const read=(k,d=[])=>{try{return JSON.parse(localStorage.getItem(k)||JSON.stringify(d))}catch{return d}};const write=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
+function openTab(id){['libreta','beats','guardar'].forEach(t=>$(t).classList.toggle('hidden',t!==id));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));if(id==='beats')renderBeats();if(id==='guardar')renderSongs();window.scrollTo({top:0,behavior:'smooth'})}
+function countWords(t){return t.trim()?t.trim().split(/\s+/).length:0}
+function updateDraft(){localStorage.setItem('hr_draft',$('draft').value);$('wordCount').textContent=countWords($('draft').value)+' palabras';$('draftStatus').textContent='Borrador guardado ✓'}
+$('draft').value=localStorage.getItem('hr_draft')||'';updateDraft();$('draft').addEventListener('input',updateDraft);
+function clearDraft(){if(!$('draft').value)return;$('draft').value='';updateDraft();$('draftStatus').textContent='Borrador limpio.'}
+function sendDraftToSave(){openTab('guardar');$('songContent').value=$('draft').value;if(!$('songTitle').value.trim())$('songTitle').value='';$('saveStatus').textContent='Texto listo para ponerle título y guardar.'}
+function newSong() {editSongId=null;$('songTitle').value='';$('songContent').value='';$('saveStatus').textContent='Nueva letra.'}
+function saveSong(){const title=$('songTitle').value.trim(),content=$('songContent').value.trim();if(!title){$('saveStatus').textContent='Poné un título para esta letra.';$('songTitle').focus();return}if(!content){$('saveStatus').textContent='Escribí la letra antes de guardar.';$('songContent').focus();return}const songs=read('hr_saved_songs'),now=new Date().toISOString();if(editSongId){const old=songs.find(s=>s.id===editSongId);if(old){old.title=title;old.content=content;old.updated=now}}else songs.unshift({id:Date.now().toString(),title,content,created:now,updated:now});write('hr_saved_songs',songs);editSongId=null;$('saveStatus').textContent='Guardado correctamente ✓';renderSongs()}
+function renderSongs(){const songs=read('hr_saved_songs');$('savedCount').textContent=songs.length+' letras';$('songList').innerHTML=songs.length?songs.map(s=>'<article class="entry"><div class="entry-copy"><div class="entry-title">'+esc(s.title)+'</div><div class="entry-preview">'+esc(s.content.slice(0,100))+(s.content.length>100?'…':'')+'</div></div><div class="entry-actions"><button class="btn small" onclick="editSong(\''+s.id+'\')">Abrir</button><button class="btn small delete" onclick="deleteSong(\''+s.id+'\')">Borrar</button></div></article>').join(''):'<div class="empty">Tu colección empieza con la primera letra que guardes.</div>'}
+function editSong(id){const s=read('hr_saved_songs').find(s=>s.id===id);if(!s)return;editSongId=id;$('songTitle').value=s.title;$('songContent').value=s.content;$('saveStatus').textContent='Editando: '+s.title;window.scrollTo({top:0,behavior:'smooth'})}
+function deleteSong(id){if(!confirm('¿Borrar esta letra?'))return;write('hr_saved_songs',read('hr_saved_songs').filter(s=>s.id!==id));if(editSongId===id)newSong();renderSongs()}
+function resetBeat(){editBeatId=null;$('beatName').value='';$('beatNotes').value='';$('beatStatus').textContent=''}
+function saveBeat(){const name=$('beatName').value.trim(),notes=$('beatNotes').value.trim();if(!name){$('beatStatus').textContent='Poné un título para la idea.';$('beatName').focus();return}const list=read('hr_beats'),now=new Date().toISOString();if(editBeatId){const b=list.find(x=>x.id===editBeatId);if(b){b.name=name;b.notes=notes;b.updated=now}}else list.unshift({id:Date.now().toString(),name,notes,updated:now});write('hr_beats',list);resetBeat();$('beatStatus').textContent='Idea guardada ✓';renderBeats()}
+function renderBeats(){const list=read('hr_beats');$('beatCount').textContent=list.length;$('beatList').innerHTML=list.length?list.map(b=>'<article class="entry"><div class="entry-copy"><div class="entry-title">'+esc(b.name)+'</div><div class="entry-preview">'+esc(b.notes||'Sin notas')+'</div></div><div class="entry-actions"><button class="btn small" onclick="editBeat(\''+b.id+'\')">Editar</button><button class="btn small delete" onclick="deleteBeat(\''+b.id+'\')">Borrar</button></div></article>').join(''):'<div class="empty">Todavía no hay ideas guardadas.</div>'}
+function editBeat(id){const b=read('hr_beats').find(x=>x.id===id);if(!b)return;editBeatId=id;$('beatName').value=b.name;$('beatNotes').value=b.notes||'';$('beatStatus').textContent='Editando idea.';window.scrollTo({top:0,behavior:'smooth'})}
+function deleteBeat(id){if(!confirm('¿Borrar esta idea?'))return;write('hr_beats',read('hr_beats').filter(b=>b.id!==id));renderBeats()}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+(function(){const rain=$('rain');for(let i=0;i<24;i++){const e=document.createElement('span');e.className='devil';e.textContent='👹';e.style.left=Math.random()*100+'%';e.style.animationDuration=(8+Math.random()*11)+'s';e.style.animationDelay=(-Math.random()*15)+'s';e.style.fontSize=(14+Math.random()*16)+'px';rain.appendChild(e)}renderSongs();renderBeats()})();
+</script></body></html>
