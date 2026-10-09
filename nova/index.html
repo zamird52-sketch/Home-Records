@@ -76,6 +76,15 @@
        </div>
        <div class="count" id="voiceStatus" role="status" aria-live="polite" style="margin-top:10px">Pegá tu letra arriba y tocá “Escuchar demo”.</div>
        <p class="count" style="margin-top:8px">Esta versión habla la letra con ritmo de lectura; todavía no canta una melodía. No necesita cuenta, clave ni permisos especiales.</p>
+       <div style="border-top:1px solid var(--line,rgba(255,255,255,.1));margin-top:16px;padding-top:16px">
+        <div class="eyebrow">PRUEBA DE VOZ CANTADA</div>
+        <p style="font-size:13px;line-height:1.6;color:var(--muted,#a5a9bb);margin:8px 0 12px">Para generar una canción real con melodía, voz y acompañamiento, NOVA te conecta con una demo online gratuita. Copiá tu letra y pegala allí; el servicio puede tener colas o límites de uso.</p>
+        <div class="toolrow" style="flex-wrap:wrap">
+         <button class="btn ghost" id="copyLyricsForSong">▣ Copiar mi letra</button>
+         <a class="btn primary" href="https://yue.noizai.net" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-flex;align-items:center">🎵 Abrir demo cantada ↗</a>
+        </div>
+        <div class="count" id="songLinkStatus" role="status" aria-live="polite" style="margin-top:8px">Demo online de YuE2; no está conectada por API directamente a NOVA.</div>
+       </div>
       </div>
      </div>
      <div class="field"><label>OBJETIVO DE LA SESIÓN</label><div class="tag-row" id="tasks"><button class="tag selected" data-task="continuar">Continuar mi idea</button><button class="tag" data-task="punchlines">Punchlines</button><button class="tag" data-task="wordplay">Dobles sentidos</button><button class="tag" data-task="rhyme">Pulir rimas</button><button class="tag" data-task="hook">Crear un coro</button><button class="tag" data-task="structure">Ordenar tema</button></div></div>
@@ -322,6 +331,16 @@ sb.auth.onAuthStateChange((_event,session)=>{setSignedIn(session?session.user:nu
   pause.addEventListener('click',()=>{if(window.speechSynthesis.paused){window.speechSynthesis.resume();paused=false;pause.textContent='Ⅱ Pausar';status.textContent='Reanudando demo…'}else{window.speechSynthesis.pause();paused=true;pause.textContent='▶ Reanudar';status.textContent='Demo pausada.'}});
   stop.addEventListener('click',()=>stopDemo('Demo detenida.'));
   window.addEventListener('beforeunload',()=>window.speechSynthesis.cancel());
+  const copySong=document.getElementById('copyLyricsForSong'), copyStatus=document.getElementById('songLinkStatus');
+  if(copySong)copySong.addEventListener('click',async()=>{
+    const lyrics=textBox.value.trim();
+    if(!lyrics){copyStatus.textContent='Primero pegá tu letra en el cuadro de arriba.';textBox.focus();return}
+    try{
+      if(navigator.clipboard&&window.isSecureContext){await navigator.clipboard.writeText(lyrics)}
+      else{const temp=document.createElement('textarea');temp.value=lyrics;temp.style.position='fixed';temp.style.opacity='0';document.body.appendChild(temp);temp.select();const ok=document.execCommand('copy');temp.remove();if(!ok)throw new Error('copy')}
+      copyStatus.textContent='Letra copiada. Abrí la demo cantada, pegala y elegí el estilo musical.';
+    }catch(e){copyStatus.textContent='No pude copiar automáticamente. Mantené pulsado el texto de tu letra para copiarlo manualmente.'}
+  });
  })();
 </script>
 
