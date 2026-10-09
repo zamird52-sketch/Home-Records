@@ -121,8 +121,8 @@ drop policy if exists "members can add comments" on public.nova_project_comments
 create policy "members can add comments" on public.nova_project_comments
 for insert to authenticated with check (
   user_id = (select auth.uid()) and (
-    exists (select 1 from public.nova_project_members m where m.project_id = project_id and m.user_id = (select auth.uid()))
-    or exists (select 1 from public.nova_projects p where p.id = project_id and p.owner_id = (select auth.uid()))
+    exists (select 1 from public.nova_project_members m where m.project_id = nova_project_comments.project_id and m.user_id = (select auth.uid()))
+    or exists (select 1 from public.nova_projects p where p.id = nova_project_comments.project_id and p.owner_id = (select auth.uid()))
   )
 );
 drop policy if exists "authors can delete own comments" on public.nova_project_comments;
@@ -132,16 +132,16 @@ for delete to authenticated using (user_id = (select auth.uid()));
 drop policy if exists "members can read versions" on public.nova_project_versions;
 create policy "members can read versions" on public.nova_project_versions
 for select to authenticated using (exists (
-  select 1 from public.nova_project_members m where m.project_id = project_id and m.user_id = (select auth.uid())
+  select 1 from public.nova_project_members m where m.project_id = nova_project_versions.project_id and m.user_id = (select auth.uid())
 ) or exists (
-  select 1 from public.nova_projects p where p.id = project_id and p.owner_id = (select auth.uid())
+  select 1 from public.nova_projects p where p.id = nova_project_versions.project_id and p.owner_id = (select auth.uid())
 ));
 drop policy if exists "members can add versions" on public.nova_project_versions;
 create policy "members can add versions" on public.nova_project_versions
 for insert to authenticated with check (
   user_id = (select auth.uid()) and (
-    exists (select 1 from public.nova_project_members m where m.project_id = project_id and m.user_id = (select auth.uid()))
-    or exists (select 1 from public.nova_projects p where p.id = project_id and p.owner_id = (select auth.uid()))
+    exists (select 1 from public.nova_project_members m where m.project_id = nova_project_versions.project_id and m.user_id = (select auth.uid()))
+    or exists (select 1 from public.nova_projects p where p.id = nova_project_versions.project_id and p.owner_id = (select auth.uid()))
   )
 );
 
